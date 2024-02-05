@@ -19,23 +19,21 @@ jobs:
 
       - name: Extract version from pyproject.toml
         id: get_version
-        run: echo "VERSION=$(toml get pyproject.toml project.version | tr -d '\"')" >> $GITHUB_ENV
-
+        run: echo "VERSION=$(toml get --toml-path pyproject.toml project.version)" >> $GITHUB_ENV
 
       - name: Check if tag exists
         id: check_tag
         run: |
-          echo "CHECK_TAG=$(git tag -l "v${{ env.VERSION }}")" >> $GITHUB_ENV
-          if [[ "$(git tag -l "v${{ env.VERSION }}")" ]]; then
-            echo "::set-output name=exists::true"
+          if git tag -l "v${{ env.VERSION }}" > /dev/null; then
+            echo "EXISTS=true" >> $GITHUB_ENV
           else
-            echo "::set-output name=exists::false"
+            echo "EXISTS=false" >> $GITHUB_ENV
           fi
 
       - name: Tag new version
-        if: steps.check_tag.outputs.exists == 'false'
+        if: env.EXISTS == 'false'
         run: |
-          git config --global user.email "action@github.com"
-          git config --global user.name "GitHub Action"
-          git tag -a "v${{ env.VERSION }}" -m "Release v${{ env.VERSION }}"
-          git push origin "v${{ env.VERSION }}"
+              git config --global user.email "action@github.com"
+              git config --global user.name "GitHub Action"
+              git tag -a "v${{ env.VERSION }}" -m "Release v${{ env.VERSION }}"
+              git push --atomic origin "v${{ env.VERSION }}"
