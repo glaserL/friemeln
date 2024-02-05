@@ -38,7 +38,7 @@ jobs:
       - name: Tag new version
         if: ${{ steps.check_tag.outputs.MISSING == 'true' }}
         env:
-          GH_TOKEN: ${{ secrets.COMMIT_KEY }}
+          GH_TOKEN: ${{ secrets.RELEASE_KEY }}
 
         run: |
               git config --global user.email "action@github.com"
