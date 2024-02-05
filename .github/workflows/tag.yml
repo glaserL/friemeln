@@ -32,9 +32,8 @@ jobs:
           else
             echo "MISSING=true" >> $GITHUB_OUTPUT
           fi
-
       - name: Tag new version
-        if: ${{ steps.check_tag.outputs.MISSING }}"
+        if: ${{ steps.check_tag.outputs.MISSING || steps.check_tag.outputs.MISSING == 'true' }}"
         run: |
               git config --global user.email "action@github.com"
               git config --global user.name "GitHub Action"
