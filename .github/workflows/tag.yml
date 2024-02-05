@@ -32,6 +32,8 @@ jobs:
 
       - name: Tag new version
         if: env.EXISTS
+        env:
+           GITHUB_TOKEN: "${{ secrets.COMMIT_KEY }}"
         run: |
               git config --global user.email "action@github.com"
               git config --global user.name "GitHub Action"
