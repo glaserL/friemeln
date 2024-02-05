@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
@@ -31,9 +34,7 @@ jobs:
           fi
 
       - name: Tag new version
-        if: ${{ steps.check_tag.outputs.EXISTS == 'false' }}
-        env:
-           GITHUB_TOKEN: "${{ secrets.COMMIT_KEY }}"
+        if: ${{ steps.check_tag.outputs.EXISTS == 'false' }}"
         run: |
               git config --global user.email "action@github.com"
               git config --global user.name "GitHub Action"
