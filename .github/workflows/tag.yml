@@ -24,7 +24,7 @@ jobs:
       - name: Check if tag exists
         id: check_tag
         run: |
-          if git tag -l "v${{ env.VERSION }}" > /dev/null; then
+          if git tag -l "v${{ env.VERSION }}"; then
             echo "EXISTS=true" >> $GITHUB_ENV
           else
             echo "EXISTS=false" >> $GITHUB_ENV
