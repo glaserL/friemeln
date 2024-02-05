@@ -28,13 +28,13 @@ jobs:
         id: check_tag
         run: |
           if [ $(git tag -l "v${{ env.VERSION }}") ]; then
-            echo "EXISTS=true" >> $GITHUB_OUTPUT
+            echo "MISSING=false" >> $GITHUB_OUTPUT
           else
-            echo "EXISTS=false" >> $GITHUB_OUTPUT
+            echo "MISSING=true" >> $GITHUB_OUTPUT
           fi
 
       - name: Tag new version
-        if: ${{ steps.check_tag.outputs.EXISTS == 'false' }}"
+        if: ${{ steps.check_tag.outputs.MISSING }}"
         run: |
               git config --global user.email "action@github.com"
               git config --global user.name "GitHub Action"
