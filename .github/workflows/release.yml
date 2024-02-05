@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -26,5 +28,3 @@ jobs:
         with:
           files: dist/*.whl
           body: ${{ github.event.head_commit.message }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_KEY }}
