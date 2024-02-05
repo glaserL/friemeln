@@ -28,10 +28,13 @@ jobs:
         id: check_tag
         run: |
           if [ $(git tag -l "v${{ env.VERSION }}") ]; then
-            echo "MISSING='false'" >> $GITHUB_OUTPUT
+            echo "MISSING=false" >> $GITHUB_OUTPUT
           else
-            echo "MISSING='true'" >> $GITHUB_OUTPUT
+            echo "MISSING=true" >> $GITHUB_OUTPUT
           fi
+
+      - name: Just echo
+        run: echo $ {{ steps.check_tag.outputs.MISSING }}
       - name: Tag new version
         if: ${{ steps.check_tag.outputs.MISSING == 'true' }}"
         run: |
