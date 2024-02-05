@@ -31,7 +31,7 @@ jobs:
           fi
 
       - name: Tag new version
-        if: env.EXISTS
+        if: env.EXISTS == "false"
         env:
            GITHUB_TOKEN: "${{ secrets.COMMIT_KEY }}"
         run: |
