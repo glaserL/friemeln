@@ -24,14 +24,14 @@ jobs:
       - name: Check if tag exists
         id: check_tag
         run: |
-          if git tag -l "v${{ env.VERSION }}"; then
-            echo "EXISTS=true" >> $GITHUB_ENV
+          if [ $(git tag -l "v${{ env.VERSION }}") ]; then
+            echo "EXISTS=true" >> $GITHUB_OUTPUT
           else
-            echo "EXISTS=false" >> $GITHUB_ENV
+            echo "EXISTS=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Tag new version
-        if: ${{ env.EXISTS == 'false' }}
+        if: ${{ steps.check_tag.outputs.EXISTS == 'false' }}
         env:
            GITHUB_TOKEN: "${{ secrets.COMMIT_KEY }}"
         run: |
